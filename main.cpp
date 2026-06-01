@@ -6,18 +6,27 @@ struct hrac {
 };
 
 void vykresli(char (&p)[3][3]) {
-    cout << p[0][0] << "|" << p[0][1] << "|" << p[0][2] << "\n";
+    cout << p[0][2] << "|" << p[1][2] << "|" << p[2][2] << "\n";
     cout << "-+-+-\n";
-    cout << p[1][0] << "|" << p[1][1] << "|" << p[1][2] << "\n";
+    cout << p[0][1] << "|" << p[1][1] << "|" << p[2][1] << "\n";
     cout << "-+-+-\n";
-    cout << p[2][0] << "|" << p[2][1] << "|" << p[2][2] << "\n";
+    cout << p[0][0] << "|" << p[1][0] << "|" << p[2][0] << "\n";
 }
 
 void tah(char (&p)[3][3], hrac h) {
     int x,y;
     znova:
-    cout << "Zadej x a y pro " << h.z << ": ";
-    if(!(cin >> x >> y)) {
+    cout << "Zadej pro " << h.z << "\n";
+    cout << "x: ";
+    if(!(cin >> x)) {
+        cout << "chybny vstup\n";
+        cin.clear();
+        char blbost[100];
+        cin >> blbost;
+        goto znova;
+    }
+    cout << "y: ";
+    if(!(cin >> y)) {
         cout << "chybny vstup\n";
         cin.clear();
         char blbost[100];
@@ -67,9 +76,15 @@ int vyhra(char (&p)[3][3]) {
 }
 
 int main() {
-    char p[3][3] = {{' ',' ',' '},{' ',' ',' '},{' ',' ',' '}};
     hrac h1; h1.z = 'X';
     hrac h2; h2.z = 'O';
+zacatek:
+    char p[3][3];
+    for(int i=0;i<3;i++) {
+        for(int j=0;j<3;j++) {
+            p[i][j] = ' ';
+        }
+    }
     int k = 1;
     while(1) {
         vykresli(p);
@@ -81,19 +96,16 @@ int main() {
             k = 1;
         }
         int v = vyhra(p);
-        if(v==1) {
+        if(v!=0) {
             vykresli(p);
-            cout << "X vyhral\n";
-            return 0;
-        }
-        if(v==2) {
-            vykresli(p);
-            cout << "O vyhral\n";
-            return 0;
-        }
-        if(v==3) {
-            vykresli(p);
-            cout << "remiza\n";
+            if(v==1) cout << "X vyhral\n";
+            if(v==2) cout << "O vyhral\n";
+            if(v==3) cout << "remiza\n";
+            
+            cout << "rematch?(a/n)\n";
+            char a;
+            cin >> a;
+            if(a=='a') goto zacatek;
             return 0;
         }
     }
