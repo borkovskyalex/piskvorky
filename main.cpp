@@ -17,14 +17,24 @@ void tah(char (&p)[3][3], hrac h) {
     int x,y;
     znova:
     cout << "Zadej x a y pro " << h.z << ": ";
-    cin >> x >> y;
-    if(x<0) goto znova;
-    if(x>2) goto znova;
-    if(y<0) goto znova;
-    if(y>2) goto znova;
-    if(p[y][x]=='X') goto znova;
-    if(p[y][x]=='O') goto znova;
-    p[y][x] = h.z;
+    if(!(cin >> x >> y)) {
+        cout << "chybny vstup\n";
+        cin.clear();
+        char blbost[100];
+        cin >> blbost;
+        goto znova;
+    }
+    if(x<0) goto chyba;
+    if(x>2) goto chyba;
+    if(y<0) goto chyba;
+    if(y>2) goto chyba;
+    if(p[x][y]=='X') goto chyba;
+    if(p[x][y]=='O') goto chyba;
+    p[x][y] = h.z;
+    return;
+chyba:
+    cout << "chybny vstup\n";
+    goto znova;
 }
 
 int vyhra(char (&p)[3][3]) {
